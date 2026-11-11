@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Scenario assets**: frozen receipt, pantry, and recipe fixtures with golden normalized JSON, confirmation files, and expected outcome assertions
 - **Automation**: CI and release workflow hooks for deterministic PR suites plus scheduled/manual model-backed runs
 
+## [0.2.1] - 2026-11-11
+### Added 
+- best_before_date
+
 ## [0.2.0] - 2026-04-01
 
 ### Added
