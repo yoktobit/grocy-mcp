@@ -105,8 +105,8 @@ class GrocyClient:
         resp = await self._request("GET", f"/stock/products/{product_id}")
         return resp.json()
 
-    async def add_stock(self, product_id: int, amount: float, **kwargs: Any) -> Any:
-        data = {"amount": amount, **kwargs}
+    async def add_stock(self, product_id: int, amount: float, best_before_date: str | None = None, **kwargs: Any) -> Any:
+        data = {"amount": amount, "best_before_date": best_before_date, **kwargs}
         resp = await self._request("POST", f"/stock/products/{product_id}/add", json=data)
         return resp.json()
 
@@ -120,8 +120,8 @@ class GrocyClient:
         resp = await self._request("POST", f"/stock/products/{product_id}/transfer", json=data)
         return resp.json()
 
-    async def inventory_stock(self, product_id: int, new_amount: float) -> Any:
-        data = {"new_amount": new_amount}
+    async def inventory_stock(self, product_id: int, new_amount: float, best_before_date: str | None = None) -> Any:
+        data = {"new_amount": new_amount, "best_before_date": best_before_date}
         resp = await self._request("POST", f"/stock/products/{product_id}/inventory", json=data)
         return resp.json()
 

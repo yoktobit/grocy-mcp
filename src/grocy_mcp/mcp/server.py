@@ -165,15 +165,16 @@ def create_mcp_server() -> FastMCP:
             return await stock_product_info(client, product)
 
     @mcp.tool()
-    async def stock_add_tool(product: str, amount: float) -> str:
+    async def stock_add_tool(product: str, amount: float, best_before_date: str | None = None) -> str:
         """Add stock for a product (e.g. after a purchase).
 
         Args:
             product: Product name (e.g. "Milk") or numeric product ID.
             amount: Quantity to add (e.g. 2.0 for two units).
+            best_before_date: Optional best-before date for the stock being added.
         """
         async with _get_client() as client:
-            return await stock_add(client, product, amount)
+            return await stock_add(client, product, amount, best_before_date)
 
     @mcp.tool()
     async def stock_consume_tool(product: str, amount: float) -> str:
@@ -199,7 +200,7 @@ def create_mcp_server() -> FastMCP:
             return await stock_transfer(client, product, amount, to_location)
 
     @mcp.tool()
-    async def stock_inventory_tool(product: str, new_amount: float) -> str:
+    async def stock_inventory_tool(product: str, new_amount: float, new_best_before_date: str | None = None) -> str:
         """Correct the stock level for a product by setting an absolute quantity.
 
         Use this when the actual count differs from what Grocy shows — e.g. after
@@ -208,9 +209,10 @@ def create_mcp_server() -> FastMCP:
         Args:
             product: Product name (e.g. "Milk") or numeric product ID.
             new_amount: The corrected total stock quantity.
+            new_best_before_date: Optional new best-before date for the stock.
         """
         async with _get_client() as client:
-            return await stock_inventory(client, product, new_amount)
+            return await stock_inventory(client, product, new_amount, new_best_before_date)
 
     @mcp.tool()
     async def stock_open_tool(product: str, amount: float = 1.0) -> str:

@@ -69,10 +69,10 @@ async def stock_product_info(client: GrocyClient, product: str) -> str:
     return f"Product: {name}\n  In stock: {amount}\n  Next best before: {best_before}"
 
 
-async def stock_add(client: GrocyClient, product: str, amount: float, **kwargs) -> str:
+async def stock_add(client: GrocyClient, product: str, amount: float, best_before_date: str | None = None, **kwargs) -> str:
     """Add stock for a product."""
     product_id = await resolve_product(client, product)
-    await client.add_stock(product_id, amount, **kwargs)
+    await client.add_stock(product_id, amount, best_before_date, **kwargs)
     return f"Added {amount} of '{product}' to stock."
 
 
@@ -91,11 +91,11 @@ async def stock_transfer(client: GrocyClient, product: str, amount: float, to_lo
     return f"Transferred {amount} of '{product}' to location '{to_location}'."
 
 
-async def stock_inventory(client: GrocyClient, product: str, new_amount: float) -> str:
-    """Set the stock amount for a product via inventory."""
+async def stock_inventory(client: GrocyClient, product: str, new_amount: float, new_best_before_date: str | None = None) -> str:
+    """Set the stock amount or best-before date for a product via inventory."""
     product_id = await resolve_product(client, product)
-    await client.inventory_stock(product_id, new_amount)
-    return f"Inventory updated: '{product}' set to {new_amount}."
+    await client.inventory_stock(product_id, new_amount, best_before_date=new_best_before_date)
+    return f"Inventory updated: '{product}' set to {new_amount} with best-before date '{new_best_before_date}'."
 
 
 async def stock_open(client: GrocyClient, product: str, amount: float = 1.0) -> str:
