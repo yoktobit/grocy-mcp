@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "grocy-mcp"
-version = "0.2.1"
+version = "0.2.2"
 description = "MCP server and CLI for Grocy with workflow tools, planning helpers, and household automation surfaces"
 readme = "README.md"
 license = "MIT"

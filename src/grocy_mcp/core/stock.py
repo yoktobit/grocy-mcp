@@ -23,15 +23,23 @@ async def stock_overview(client: GrocyClient) -> str:
 async def stock_expiring(client: GrocyClient) -> str:
     """Return products that are expiring soon or already expired."""
     volatile = await client.get_volatile_stock()
-    expiring = volatile.get("expiring_products", [])
+    due = volatile.get("due_products", [])
+    overdue = volatile.get("overdue_products", [])
     expired = volatile.get("expired_products", [])
     missing = volatile.get("missing_products", [])
 
     lines = []
 
-    if expiring:
+    if due:
         lines.append("Expiring soon:")
-        for item in expiring:
+        for item in due:
+            product = item.get("product") or {}
+            name = product.get("name", f"Product {item.get('product_id')}")
+            lines.append(f"  {name}")
+    
+    if overdue:
+        lines.append("Overdue:")
+        for item in overdue:
             product = item.get("product") or {}
             name = product.get("name", f"Product {item.get('product_id')}")
             lines.append(f"  {name}")
